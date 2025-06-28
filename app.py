@@ -121,8 +121,12 @@ app = Flask(__name__)
 # model = load_model('model/blood_cell_model.h5')
 
 from keras.layers import TFSMLayer
+import tensorflow as tf
 
-model = TFSMLayer("model/blood_cell_model_saved", call_endpoint="serve")
+# Wrap SavedModel using TFSMLayer
+model = tf.keras.Sequential([
+    TFSMLayer("model/blood_cell_model_saved", call_endpoint="serve")
+])
 
 
 
