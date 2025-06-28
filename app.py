@@ -113,11 +113,18 @@ from flask import Flask, request, render_template, url_for
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from PIL import Image, ImageOps
+from keras.models import load_model
 
 app = Flask(__name__)
 
 # Load model
-model = load_model('model/blood_cell_model.h5')
+# model = load_model('model/blood_cell_model.h5')
+
+from keras.layers import TFSMLayer
+
+model = TFSMLayer("model/blood_cell_model_saved", call_endpoint="serve")
+
+
 
 # Class labels
 class_names = ['Eosinophil', 'Lymphocyte', 'Monocyte', 'Neutrophil']
@@ -194,7 +201,7 @@ def predict():
     img_array = np.expand_dims(img_array, axis=0)
 
     # Predict
-    prediction = model.predict(img_array)
+    prediction = model(np.array(img_array))
     confidence = float(np.max(prediction))
     class_idx = np.argmax(prediction)
     predicted_class = class_names[class_idx]
