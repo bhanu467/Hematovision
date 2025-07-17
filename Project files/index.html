@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HematoVision</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+  <script>
+    function showLoader() {
+      document.getElementById('loader').style.display = 'block';
+    }
+  </script>
+</head>
+<body>
+  <nav>
+  <a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">🏠 Home</a>
+  <a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">ℹ️ About</a>
+  <a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">📬 Contact</a>
+</nav>
+
+  <h1>🔬 HematoVision</h1>
+
+
+
+
+  <p>Upload a blood cell image to classify and learn about it.</p>
+
+  <form action="/predict" method="post" enctype="multipart/form-data" onsubmit="showLoader()">
+    <input type="file" name="file" accept="image/*" required><br>
+    <input type="submit" value="Classify 🔎">
+  </form>
+
+  <div id="loader" class="loader"></div>
+
+  {% if prediction %}
+    <div class="result-box">
+      <strong>🧪 Prediction Result:</strong><br>
+      {{ prediction|safe }}
+    </div>
+    <img src="{{ image_path }}" alt="Uploaded Image">
+    {% if "Low confidence" in prediction %}
+      <p class="warning">⚠️ Prediction may be inaccurate. Please upload a clearer image.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if edu_info %}
+    <div class="edu-box">
+      <h3>🩸 Learn About: {{ cell_name }}</h3>
+      <p><strong>Description:</strong> {{ edu_info.desc }}</p>
+      <p><strong>Key Features:</strong> {{ edu_info.features }}</p>
+      <p><strong>Main Function:</strong> {{ edu_info.function }}</p>
+      <img src="{{ url_for('static', filename=edu_info.image) }}" class="reference-img">
+    </div>
+  {% endif %}
+</body>
+</html>
