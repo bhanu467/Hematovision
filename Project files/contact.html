@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - HematoVision</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('home') }}">🏠 Home</a>
+    <a href="{{ url_for('about') }}">ℹ️ About</a>
+    <a href="{{ url_for('contact') }}" class="active">📬 Contact</a>
+  </nav>
+
+  <h1>📬 Contact or Feedback</h1>
+  <p>Have a question, suggestion, or feedback? Let us know!</p>
+
+  <form class="contact-form" method="post">
+    <input type="text" name="name" placeholder="Your Name" required><br>
+    <input type="email" name="email" placeholder="Your Email" required><br>
+    <textarea name="message" rows="5" placeholder="Your Message" required></textarea><br>
+    <input type="submit" value="Send Message ✉️">
+  </form>
+
+  {% if success %}
+    <p class="success-msg">✅ Thank you for your message, {{ name }}!</p>
+  {% endif %}
+</body>
+</html>
