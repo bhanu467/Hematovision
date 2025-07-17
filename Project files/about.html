@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About - HematoVision</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+  <a href="{{ url_for('home') }}" class="{% if request.path == '/' %}active{% endif %}">🏠 Home</a>
+  <a href="{{ url_for('about') }}" class="{% if request.path == '/about' %}active{% endif %}">ℹ️ About</a>
+  <a href="{{ url_for('contact') }}" class="{% if request.path == '/contact' %}active{% endif %}">📬 Contact</a>
+</nav>
+
+  <h1>📖 About HematoVision</h1>
+  <p>HematoVision helps identify and learn about white blood cells using image classification powered by deep learning.</p>
+
+  <div class="cell-grid">
+    {% for cell in cells %}
+      <div class="cell-card">
+        <h3>{{ cell.name }}</h3>
+        <img src="{{ url_for('static', filename=cell.image) }}" alt="{{ cell.name }}">
+        <p><strong>Description:</strong> {{ cell.desc }}</p>
+        <p><strong>Features:</strong> {{ cell.features }}</p>
+        <p><strong>Function:</strong> {{ cell.function }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <a href="{{ url_for('home') }}" class="nav-btn">🏠 Back to Home</a>
+</body>
+</html>
